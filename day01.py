@@ -1,9 +1,9 @@
-example="""1abc2
+example_p1="""1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
 treb7uchet"""
 
-example2="""two1nine
+example_p2="""two1nine
 eightwothree
 abcone2threexyz
 xtwone3four
@@ -1013,47 +1013,36 @@ nvfive8hvdth6fgnfgh
 8hl5eight"""
 
 
-digits = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9}
+digits = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
 
 def get_first_last(string, include_letters = False):
     numbers = []
-    for index in range(0, len(string)):
-        if string[index].isdigit():
-            numbers.append(string[index])
+    for index, char in enumerate(string):
+        if char.isdigit():
+            numbers.append(char)
         elif include_letters:
-            for digit, value in digits.items():
-                if string[index:].startswith(digit):
-                    numbers.append(str(value))
-    return int(numbers[0] + numbers[-1])
+            for digit, value in enumerate(digits, start=1):
+                if string[index:].startswith(value):
+                    numbers.append(digit)
+                    break
+    return int(str(numbers[0]) + str(numbers[-1]))
 
 
 if __name__ == "__main__":
-
     # part1
-    calibration = []
-    for line in example.splitlines():
-        calibration.append(get_first_last(line))
+    calibration = [get_first_last(line) for line in example_p1.splitlines()]
     assert sum(calibration) == 142
     
-    calibration = []
-    for line in game.splitlines():
-        calibration.append(get_first_last(line))
+    calibration = [get_first_last(line) for line in game.splitlines()]
     answer_p1 = sum(calibration)
     print("p1: " + str(answer_p1))
     assert answer_p1 == 54990
 
     # part2
-    calibration = []
-    for line in example2.splitlines():
-        calibration.append(get_first_last(line, include_letters=True))
+    calibration = [get_first_last(line, include_letters=True) for line in example_p2.splitlines()]
     assert sum(calibration) == 281
 
-
-    part2 = game.splitlines()
-    calibration = []
-    for line in part2:
-        calibration.append(get_first_last(line, include_letters=True))
-
+    calibration = [get_first_last(line, include_letters=True) for line in game.splitlines()]
     answer_p2 = sum(calibration)
     print("p2: " + str(answer_p2))
     assert answer_p2 == 54473
